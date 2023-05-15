@@ -2,10 +2,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import VendorRegisteration from "./Components/VendorRegisteration";
 import axios from "axios";
 import { ToastContainer } from "react-toastify";
+import Login from "./Components/Login";
+import Demo from "./Components/demo";
+import InvoiceMaster from "./Components/InvoiceSubmission";
 
 
 function App() {
-  axios.defaults.baseURL="https://vendor-management-server.vercel.app/api/v1";
+  axios.defaults.baseURL = "https://vendor-management-server.vercel.app/api/v1";
+  axios.defaults.withCredentials = true;
   return (
     <>
       <ToastContainer
@@ -24,6 +28,9 @@ function App() {
         <Routes>
           {/* <Route path="*" element={<NoPage />} /> */}
           <Route path="/" element={<VendorRegisteration />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/demo" element={<Demo />} />
+          <Route path="/invoice" element = {<InvoiceMaster />} />
         </Routes>
       </BrowserRouter>
     </>

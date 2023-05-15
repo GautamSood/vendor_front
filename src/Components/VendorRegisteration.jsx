@@ -2,26 +2,56 @@ import React from 'react'
 import axios from "axios"
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const VendorRegisteration = () => {
+
+      const navigate = useNavigate();
+
+      const setUserCookie = (data) => {
+        Cookies.set("userDetailsCookie", "data");
+        console.log(Cookies.get("userDetailsCookie"));
+        navigate("/demo");
+      };
+   
   
   const formsubmit = (e) => {
      e.preventDefault();
       console.log("function is working")
       let formData = new FormData(e.target);
       formData = Object.fromEntries(formData);
-      console.log(formData);
+ 
+    const id = toast.loading("Please wait...");
 
-    axios.post("vendors/signUp", {
-        data: formData
-      })
+
+    axios
+      .post(
+        "vendors/signUp",
+        {
+          data: formData,
+        }
+      )
       .then((res) => {
         console.log(res);
-        toast.success("hi");
+        toast.update(id, {
+          render: "All is good",
+          type: "success",
+          isLoading: false,
+          closeOnClick: true,
+          autoClose: 5000,
+        });
+        setUserCookie(res);
       })
-      .catch((err) => {
-        console.log(err.message);
-        toast.error("Registration failed");
+      .catch((res) => {
+        console.log(res.message);
+        toast.update(id, {
+          render: "Something went wrong",
+          type: "error",
+          isLoading: false,
+          closeOnClick: true,
+          autoClose: 5000,
+        });
       });
     };
   return (
@@ -39,7 +69,6 @@ const VendorRegisteration = () => {
       <div className="container">
         <form
           onSubmit={(event) => {
-            event.preventDefault();
             formsubmit(event);
           }}
         >
