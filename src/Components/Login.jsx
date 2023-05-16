@@ -34,7 +34,7 @@ const Login = () => {
           .then((res) => {
 
              toast.update(id, {
-               render: "you are logedIn",
+               render: "you are logedIn 🫱🏾‍🫲🏿",
                type: "success",
                isLoading: false,
                closeOnClick: true,
