@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from "axios"
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
@@ -12,7 +12,7 @@ const VendorRegisteration = () => {
       const setUserCookie = (data) => {
         Cookies.set("userDetailsCookie", "data");
         console.log(Cookies.get("userDetailsCookie"));
-        navigate("/demo");
+        navigate("/invoice");
       };
    
   
@@ -61,8 +61,13 @@ const VendorRegisteration = () => {
       </h1>
 
       <div className="container">
-        <button type="button" className="btn btn-outline-primary mb-5">
+        <button type="button " className="btn btn-outline-primary m-2">
           Home
+        </button>
+        <button type="button" className="btn btn-outline-primary m-2" onClick={() => {
+          navigate('/login')
+        }}>
+          Login
         </button>
       </div>
 
@@ -300,7 +305,6 @@ const VendorRegisteration = () => {
           </div>
 
           <h3>Details of Buyer</h3>
-
 
           <button type="submit" className="btn btn-success">
             submit

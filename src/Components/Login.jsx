@@ -2,7 +2,8 @@ import React from 'react'
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-
+import {  toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const Login = () => {
 
 
@@ -11,7 +12,7 @@ const Login = () => {
     const setUserCookie = (data) => {       
          Cookies.set("userDetailsCookie", "data");
          console.log(Cookies.get("userDetailsCookie"));
-         navigate("/demo");
+         navigate("/invoice");
      };
 
     const handlesubmit = (e) => {
@@ -21,6 +22,7 @@ const Login = () => {
         let formData = new FormData(e.target);
         formData = Object.fromEntries(formData);
         console.log(formData);
+        const id = toast.loading("Please wait...");
         
         axios
           .post(
@@ -30,11 +32,26 @@ const Login = () => {
             }
           )
           .then((res) => {
+
+             toast.update(id, {
+               render: "All is good",
+               type: "success",
+               isLoading: false,
+               closeOnClick: true,
+               autoClose: 5000,
+             });
               
               setUserCookie(res);
           })
           .catch((err) => {
             console.log(err.message);
+            toast.update(id, {
+              render: "Something went wrong",
+              type: "error",
+              isLoading: false,
+              closeOnClick: true,
+              autoClose: 5000,
+            });
           });
     }
 
@@ -46,6 +63,14 @@ const Login = () => {
         <h1 style={{ textAlign: "center" }} className="mt-5">
           Login
         </h1>
+        <button
+          className="btn btn-outline-primary mb-5"
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          SignUp
+        </button>
         <form
           onSubmit={(e) => {
             handlesubmit(e);
@@ -77,7 +102,6 @@ const Login = () => {
             Submit
           </button>
         </form>
-        
       </div>
     </>
   );
