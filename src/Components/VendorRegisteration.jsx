@@ -35,7 +35,7 @@ const VendorRegisteration = () => {
       .then((res) => {
         console.log(res);
         toast.update(id, {
-          render: "All is good",
+          render: "you are logedIn",
           type: "success",
           isLoading: false,
           closeOnClick: true,
