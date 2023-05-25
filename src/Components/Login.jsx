@@ -4,9 +4,13 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import {  toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useState } from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons"; 
+
 const Login = () => {
 
-
+    const [passwordeye, setpasswordeye] = useState("password");
     const navigate = useNavigate();
 
     const setUserCookie = (data) => {       
@@ -25,23 +29,19 @@ const Login = () => {
         const id = toast.loading("Please wait...");
         
         axios
-          .post(
-            "/vendors/signIn",
-            {
-              data: formData,
-            }
-          )
+          .post("/vendors/auth/signIn", {
+            data: formData,
+          })
           .then((res) => {
-
-             toast.update(id, {
-               render: "you are logedIn 🫱🏾‍🫲🏿",
-               type: "success",
-               isLoading: false,
-               closeOnClick: true,
-               autoClose: 5000,
-             });
-              
-              setUserCookie(res);
+            toast.update(id, {
+              render: "you are logedIn 🫱🏾‍🫲🏿",
+              type: "success",
+              isLoading: false,
+              closeOnClick: true,
+              autoClose: 5000,
+            });
+            // console.log(res);
+            setUserCookie(res);
           })
           .catch((err) => {
             console.log(err.message);
@@ -54,8 +54,16 @@ const Login = () => {
             });
           });
     }
+  
+  const viewPassword = () => {
+    if (passwordeye === "password") {
+      setpasswordeye("");
 
- 
+    }
+    else {
+     setpasswordeye("password"); 
+    }
+  }
 
   return (
     <>
@@ -89,13 +97,32 @@ const Login = () => {
           </div>
           <div className="form-group mb-3">
             <label htmlFor="exampleInputPassword1">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              id="exampleInputPassword1"
-              name="Password"
-              placeholder="Password"
-            />
+            <div className="row">
+              <div className="input-group">
+                <input
+                  type={passwordeye}
+                  className="form-control"
+                  id="exampleInputPassword1"
+                  name="Password"
+                  placeholder="Password"
+                />
+
+                <div
+                  className="input-group-btn"
+                  onClick={() => {
+                    viewPassword();
+                  }}
+                >
+                  <span className="btn btn-outline-secondary">
+                    {passwordeye === "password" ? (
+                      <FontAwesomeIcon icon={faEye} />
+                    ) : (
+                      <FontAwesomeIcon icon={faEyeSlash} />
+                    )}
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
 
           <button type="submit" className="btn btn-primary">

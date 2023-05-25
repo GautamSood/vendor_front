@@ -4,9 +4,14 @@ import {  toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons"; 
+import { useState } from 'react';
 
 const VendorRegisteration = () => {
 
+
+      const [passwordeye, setpasswordeye] = useState("password");
       const navigate = useNavigate();
 
       const setUserCookie = (data) => {
@@ -26,12 +31,9 @@ const VendorRegisteration = () => {
 
 
     axios
-      .post(
-        "vendors/signUp",
-        {
-          data: formData,
-        }
-      )
+      .post("vendors/auth/signUp", {
+        data: formData,
+      })
       .then((res) => {
         console.log(res);
         toast.update(id, {
@@ -53,7 +55,17 @@ const VendorRegisteration = () => {
           autoClose: 5000,
         });
       });
-    };
+  };
+  
+  const viewPassword = () => {
+    if (passwordeye === "password") {
+      setpasswordeye("");
+    } else {
+      setpasswordeye("password");
+    }
+  };
+
+
   return (
     <div style={{ fontFamily: "serif" }}>
       <h1 className="" style={{ textAlign: "center" }}>
@@ -61,12 +73,22 @@ const VendorRegisteration = () => {
       </h1>
 
       <div className="container">
-        <button type="button " className="btn btn-outline-primary m-2">
+        <button type="button " className="btn btn-outline-primary m-2" onClick={() => {
+          axios.get("/vendors/getInfo").then((res) => {
+            console.log(res)
+          }).catch((err) => {
+            console.log(err);
+          });
+        }} >
           Home
         </button>
-        <button type="button" className="btn btn-outline-primary m-2" onClick={() => {
-          navigate('/login')
-        }}>
+        <button
+          type="button"
+          className="btn btn-outline-primary m-2"
+          onClick={() => {
+            navigate("/login");
+          }}
+        >
           Login
         </button>
       </div>
@@ -112,7 +134,27 @@ const VendorRegisteration = () => {
               <label htmlFor="Password" className="form-label">
                 Password
               </label>
-              <input type="password" className="form-control" name="Password" />
+              <div className='input-group'>
+                <input
+                  type={passwordeye}
+                  className="form-control"
+                  name="Password"
+                />
+                <div
+                  className="input-group-btn"
+                  onClick={() => {
+                    viewPassword();
+                  }}
+                >
+                  <span className="btn btn-outline-secondary">
+                    {passwordeye === "password" ? (
+                      <FontAwesomeIcon icon={faEyeSlash} />
+                    ) : (
+                      <FontAwesomeIcon icon={faEye} />
+                    )}
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
 

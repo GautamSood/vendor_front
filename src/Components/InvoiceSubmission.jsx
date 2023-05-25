@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import axios from "axios";
 
 
-
+// Build By Ashutosh
 
 const InvoiceMaster = () => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const InvoiceMaster = () => {
   useEffect(() => {
     const userDetailsCookie = Cookies.get("userDetailsCookie");
     if (!userDetailsCookie) {
-      navigate("/login");
+      navigate("/auth/login");
     }
   }, [navigate]);
 
@@ -23,6 +24,12 @@ const InvoiceMaster = () => {
     console.log(formData);
   };
 
+  async function  logOut() {
+    await axios.delete("/vendors/auth/signOut");
+    Cookies.remove("userDetailsCookie");
+    navigate("/");
+  }
+
   return (
     <div style={{ fontFamily: "serif" }}>
       <h1 className="" style={{ textAlign: "center" }}>
@@ -31,6 +38,9 @@ const InvoiceMaster = () => {
       <br />
 
       <div className="container">
+        <button className="btn btn-outline-primary mb-5" onClick={() => {
+          logOut()
+        }}>Logout</button>
         <form
           onSubmit={(event) => {
             event.preventDefault();
@@ -38,17 +48,7 @@ const InvoiceMaster = () => {
           }}
         >
           <div className="mb-3 row">
-            <div className="col">
-              <label htmlFor="invoicenumber" className="form-label">
-                Invoice Number
-              </label>
-              <input
-                className="form-control"
-                id="invoicenumber"
-                aria-describedby="emailHelp"
-                name="invoicenumber"
-              ></input>
-            </div>
+
             {/* <div className="col">
                             <label htmlFor="vendorid" className="form-label">Vendor ID</label>
                             <input type="number" className="form-control" id="vendorid" name="vendorid"/>
@@ -64,6 +64,10 @@ const InvoiceMaster = () => {
                 className="form-control"
                 id="invoicedate"
                 name="invoicedate"
+                onChange={(e) => {
+                  console.log(typeof(e.target.value)
+                  )
+                }}
               />
             </div>
 

@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import Login from "./Components/Login";
 import Demo from "./Components/demo";
 import InvoiceMaster from "./Components/InvoiceSubmission";
+import VendorProfile from "./Components/VendorProfile";
 
 
 function App() {
@@ -30,7 +31,8 @@ function App() {
           <Route path="/" element={<VendorRegisteration />} />
           <Route path="/login" element={<Login />} />
           <Route path="/demo" element={<Demo />} />
-          <Route path="/invoice" element = {<InvoiceMaster />} />
+          <Route path="/invoice" element={<InvoiceMaster />} />
+          <Route path="/VendorProfile" element={<VendorProfile />} />
         </Routes>
       </BrowserRouter>
     </>
