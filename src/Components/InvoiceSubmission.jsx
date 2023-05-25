@@ -38,9 +38,21 @@ const InvoiceMaster = () => {
       <br />
 
       <div className="container">
-        <button className="btn btn-outline-primary mb-5" onClick={() => {
-          logOut()
-        }}>Logout</button>
+        <button
+          className="btn btn-outline-primary mb-5"
+          onClick={() => {
+            axios
+              .get("/vendors/getInfo")
+              .then((res) => {
+                console.log(res);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }}
+        >
+          Logout
+        </button>
         <form
           onSubmit={(event) => {
             event.preventDefault();
@@ -48,7 +60,6 @@ const InvoiceMaster = () => {
           }}
         >
           <div className="mb-3 row">
-
             {/* <div className="col">
                             <label htmlFor="vendorid" className="form-label">Vendor ID</label>
                             <input type="number" className="form-control" id="vendorid" name="vendorid"/>
@@ -65,8 +76,7 @@ const InvoiceMaster = () => {
                 id="invoicedate"
                 name="invoicedate"
                 onChange={(e) => {
-                  console.log(typeof(e.target.value)
-                  )
+                  console.log(typeof e.target.value);
                 }}
               />
             </div>
