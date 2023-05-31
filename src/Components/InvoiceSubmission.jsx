@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 // Build By Ashutosh
@@ -22,6 +24,33 @@ const InvoiceMaster = () => {
     let formData = new FormData(e.target);
     formData = Object.fromEntries(formData);
     console.log(formData);
+    const id = toast.loading("Please wait...");
+
+    axios
+      .post("vendors/addInvoice", {
+        data: formData,
+      })
+      .then((res) => {
+        console.log(res);
+        toast.update(id, {
+          render: "Stored",
+          type: "success",
+          isLoading: false,
+          closeOnClick: true,
+          autoClose: 5000,
+        });
+      })
+      .catch((res) => {
+        console.log(res.message);
+        toast.update(id, {
+          render: "Something went wrong",
+          type: "error",
+          isLoading: false,
+          closeOnClick: true,
+          autoClose: 5000,
+        });
+      });
+
   };
 
   async function  logOut() {
@@ -41,14 +70,15 @@ const InvoiceMaster = () => {
         <button
           className="btn btn-outline-primary mb-5"
           onClick={() => {
-            axios
-              .get("/vendors/getInfo")
-              .then((res) => {
-                console.log(res);
-              })
-              .catch((err) => {
-                console.log(err);
-              });
+            // axios
+            //   .get("/vendors/getInfo")
+            //   .then((res) => {
+            //     console.log(res);
+            //   })
+            //   .catch((err) => {
+            //     console.log(err);
+            //   });
+            logOut();
           }}
         >
           Logout
@@ -61,9 +91,9 @@ const InvoiceMaster = () => {
         >
           <div className="mb-3 row">
             {/* <div className="col">
-                            <label htmlFor="vendorid" className="form-label">Vendor ID</label>
-                            <input type="number" className="form-control" id="vendorid" name="vendorid"/>
-                        </div> */}
+                  <label htmlFor="vendorid" className="form-label">Vendor ID</label>
+                  <input type="number" className="form-control" id="vendorid" name="vendorid"/>
+              </div> */}
           </div>
           <div className="mb-3 row">
             <div className="col">
